@@ -17,6 +17,7 @@
 """
 
 from optparse import OptionParser
+import sys
 
 def read_fasta(file):
 	sequence=''
@@ -30,10 +31,14 @@ def read_fasta(file):
 def run():
 	usage = "usage: %prog [options]"
 	parser = OptionParser(usage)
-	parser.add_option('-f', '--fasta', action='store', type='string', dest='fasta')
-	parser.add_option('-s', '--start', action='store', type='int', dest='start')
-	parser.add_option('-e', '--end', action='store', type='int', dest='end')
+	parser.add_option('-f', '--fasta', action='store', type='string', dest='fasta', help='Path to fasta file')
+	parser.add_option('-s', '--start', action='store', type='int', dest='start', help='start position')
+	parser.add_option('-e', '--end', action='store', type='int', dest='end', help='end position')
 	(options, args) = parser.parse_args()
+
+	if not options.fasta or not options.start or not options.end:
+		parser.print_help()
+		sys.exit()
 
 	sequence = read_fasta(options.fasta)
 	print sequence[int(options.start):int(options.end)]
