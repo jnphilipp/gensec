@@ -21,12 +21,15 @@ import sys
 
 def read_fasta(file):
 	sequence=''
+	description=''
 	with open(file, 'r') as f:
-		next(f)
 		for line in f:
-			sequence = sequence + str(line).strip()
+			if line.startswith('>'):
+				description = description + str(line).strip()
+			else:
+				sequence = sequence + str(line).strip()
 
-	return sequence
+	return (description, sequence)
 
 def run():
 	usage = "usage: %prog [options]"
@@ -40,7 +43,8 @@ def run():
 		parser.print_help()
 		sys.exit()
 
-	sequence = read_fasta(options.fasta)
+	description, sequence = read_fasta(options.fasta)
+	print '%s [%s-%s]' % (description, options.start, options.end)
 	print sequence[int(options.start) - 1:int(options.end) - 1]
 
 if __name__ == '__main__':
