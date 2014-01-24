@@ -41,7 +41,7 @@ def run():
 		sys.exit()
 
 	sequence = read_fasta(options.fasta)
-	print sequence[int(options.start):int(options.end)]
+	print sequence[int(options.start) - 1:int(options.end) - 1]
 
 if __name__ == '__main__':
 	run()
